@@ -1,6 +1,6 @@
 # MiniBin
 
-Miniature pastebin clone, made with Node.js, MongoDB, Express.js and React
+Miniature and robust Pastebin clone, made with Node.js, MongoDB, Express.js and React
 
 
 # Setup
@@ -11,3 +11,5 @@ Setup (install server and client packages): ```npm run setup```
 
 Development (run back-end and front-end): ```npm run start```
 
+# Screenshot
+![Screenshot](/screenshots/screenshot.png?raw=true)
