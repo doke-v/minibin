@@ -1,5 +1,5 @@
 let MongoClient = require('mongodb').MongoClient;
-let url = "your_mongo_connection";
+let url = "Your MongoDB URL Here";
 
 
 
