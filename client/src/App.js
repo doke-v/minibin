@@ -19,9 +19,11 @@ class EnterPaste extends React.Component {
     text: "",
     user: "Anonymous",
     title: "Untitled",
+    error: null,
     count: null
   };
   postData(data) {
+   
     return fetch("/", {
       method: "POST",
       headers: {
@@ -44,10 +46,30 @@ class EnterPaste extends React.Component {
       })
       .then(data => {
         this.setState({ count: data.text });
+      })
+      .catch(err => {
+        this.setState({ error: "Database connection error!" });
       });
   }
+
+  
+  
+
   handleSubmit(evt) {
     evt.preventDefault();
+    if(this.state.text.length < 1) {
+      this.setState({error: "Empty paste!"}, ()=>{  
+        if (this.timeout) {
+          clearTimeout(this.timeout)
+          this.timeout = null
+        }    
+        this.timeout = setTimeout(function() {
+          this.setState({error: false})
+          this.timeout = null
+        }.bind(this), 1000)
+      })
+      return;
+    }
     this.postData({ text: this.state.text });
     this.setState({ text: "" });
   }
@@ -62,9 +84,9 @@ class EnterPaste extends React.Component {
         <div className="App">
           <div className="header">
             <div className="title">MiniBin</div>
-            {this.state.count && (
-              <div className="total">{"Total pasta: " + this.state.count}</div>
-            )}
+            {this.state.error && <div className="error">{this.state.error}</div>}
+            {this.state.count && <div className="total">{"Total pasta: " + this.state.count}</div>}
+            
           </div>
           <form onSubmit={this.handleSubmit.bind(this)}>
             <textarea autoFocus rows="10" className="text-area" value={this.state.text} onChange={this.handleTextChange.bind(this)}/>
