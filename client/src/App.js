@@ -1,9 +1,7 @@
 import React, {Component} from 'react'
 import {BrowserRouter as Router, Route, Redirect} from 'react-router-dom'
-
 class App extends Component {
-  state = {data: null, text: '', user: 'Anonymous', title: 'Untitled', count: null}
-
+  state = {data: null, text: '', user: 'Anonymous', title: 'Untitled', count: 0}
   postData(data) {
     return fetch('/', {
       method: 'POST',
@@ -25,12 +23,9 @@ class App extends Component {
   componentDidMount(){
     this.getCount()
   }
-
   componentDidUpdate(){
     this.getCount()
-
   }
-
   getCount(){
     fetch('/count')
     .then(response => {
@@ -62,8 +57,8 @@ class App extends Component {
                   <div className="App">
                   <div className = "header">
                     <div className="title">MiniBin</div>
-                    {this.state.count && <div className="total">{"Total pasta: " + this.state.count }</div>}
-                  </div> 
+                    {(this.state.count>0) && <div className="total">{"Total pasta: " + this.state.count }</div>}
+                  </div>
                     <form onSubmit={this.handleSubmit.bind(this)}>
                       <textarea autoFocus rows="10" className="text-area" value={this.state.text} onChange={this.handleTextChange.bind(this)}
                       />
@@ -80,7 +75,6 @@ class App extends Component {
         </Router>
   }
 }
-
 class Paste extends React.Component {
   state = {data: null}
   componentDidMount() {
@@ -100,5 +94,4 @@ class Paste extends React.Component {
     return <div className="raw">{this.state.data}</div>
   }
 }
-
 export default App
