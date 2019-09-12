@@ -24,10 +24,8 @@ body {
 
 .raw {
   font-family: monospace;
-  & pre {
-    margin: 0;
-    padding: 0.25em;
-  }
+  margin: 0;
+  padding: 0.25em;
   & code {
   font-family: monospace;
   }
