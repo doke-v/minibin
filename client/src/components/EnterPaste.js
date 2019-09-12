@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useStoreState, useStoreActions } from "easy-peasy";
 
 function EnterPaste(){
@@ -7,6 +7,10 @@ function EnterPaste(){
     const count = useStoreState(state => state.count);
     const postPaste = useStoreActions(actions => actions.postPaste)
     const setError = useStoreActions(actions => actions.setError)
+    const getCount = useStoreActions(actions => actions.getCount)
+    useEffect(()=>{
+      getCount()
+    }, [getCount])
 
     const handleChange = (e) => {
         setText(e.target.value)

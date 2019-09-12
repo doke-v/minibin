@@ -11,7 +11,7 @@ const store = createStore({
             return response.json();
           })
           .then(data => {
-            actions.setCount(data.text);
+            actions.setCount(data.count);
           })
           .catch(_err => {
             actions.setError("Database connection error!");
@@ -30,8 +30,20 @@ const store = createStore({
               "Content-Type": "application/json; charset=utf-8"
             },
             body: JSON.stringify({text: payload})
+          }).then(response=>{
+            return response.json();
+          }).then(data => {
+            console.log(data)
+            actions.redirect(data.shortid);
           })
+          .catch(_err => {
+            actions.setError("Database connection error!");
+          });;
       }),
+    redirect: action((state, payload)=>{
+      let url = window.location.href + payload
+      window.location.href = url
+    })  
   });
 
   export default store;

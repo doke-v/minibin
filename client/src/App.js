@@ -1,16 +1,8 @@
-import React, { useEffect } from "react";
-import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
-import ViewPaste from "./components/ViewPaste";
-import EnterPaste from "./components/EnterPaste"
-import {useStoreActions} from "easy-peasy"
+import React from "react";
+import Routes from './Routes.js'
 
 function App(){
-  const getCount = useStoreActions(actions => actions.getCount)
-  useEffect(()=>{
-    getCount()
-  }, [])
-
-  return <EnterPaste></EnterPaste>
+  return <Routes></Routes>
 }
 
 // class App extends Component {
