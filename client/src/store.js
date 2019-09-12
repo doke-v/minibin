@@ -6,7 +6,7 @@ const store = createStore({
     title: "Untitled",
     count: null,
     getCount: thunk(async (actions, payload) => {
-        await fetch("/count")
+        await fetch("/bin/api/count")
         .then(response => {
             return response.json();
           })
@@ -24,7 +24,7 @@ const store = createStore({
         state.error = payload
     }),
     postPaste: thunk(async (actions, payload) => {
-        await fetch("/", {
+        await fetch("/bin/api/", {
             method: "POST",
             headers: {
               "Content-Type": "application/json; charset=utf-8"
