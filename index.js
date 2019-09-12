@@ -1,19 +1,16 @@
 let MongoClient = require('mongodb').MongoClient;
-let url = "YOUR MONGODB URL HERE";
+let url = "YOUR_MONGODB_URL_HERE";
 const shortid = require('shortid');
 const express = require('express');
 const app = express();
-const port = process.env.PORT || 5000;
-
+const port = 5000;
 
 app.use(express.json())
-const client = new MongoClient(url, { useNewUrlParser: true })
+const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true })
 let connect = client.connect()
-
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
 app.get('/count', (req, res) => {
-  let id = req.params.id
    connect.then(() => {
      const db = client.db('mydb')
      const coll = db.collection('pastes')
@@ -26,8 +23,8 @@ app.get('/count', (req, res) => {
     );
    });
 })
+
 app.get('/drop', (req, res) => {
-  let id = req.params.id
    connect.then(() => {
      const db = client.db('mydb')
      const coll = db.collection('pastes')
@@ -37,6 +34,7 @@ app.get('/drop', (req, res) => {
     });
    });
 })
+
 app.get('/:id', (req, res) => {
    let id = req.params.id
     connect.then(() => {
@@ -53,6 +51,7 @@ app.get('/:id', (req, res) => {
       });
     });
 })
+
 app.post('/', (req, res) => {
   let id = shortid.generate()
   req.body.shortid = id
