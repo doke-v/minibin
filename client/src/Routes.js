@@ -6,7 +6,7 @@ import EnterPaste from "./components/EnterPaste";
 
 function Routes() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/bin">
       <Switch>
         <Route exact path="/" component={EnterPaste} />
         <Route path="/raw/:id" component={ViewRawPaste} />

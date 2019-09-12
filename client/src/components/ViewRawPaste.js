@@ -4,7 +4,7 @@ function ViewRawPaste(props) {
   const [data, setData] = useState("");
   const id = props.match.params.id
   const getData = id => {
-    fetch("/" + id + "?_=" + new Date().valueOf())
+    fetch("/bin/api/" + id + "?_=" + new Date().valueOf())
       .then(response => {
         return response.json();
       })
