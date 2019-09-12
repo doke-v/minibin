@@ -22,6 +22,10 @@ function EnterPaste(){
             setError("Paste too short!")
             return;
         }
+        if(text.length > 100000) {
+          setError("Paste too long!")
+          return;
+        }
         postPaste(text)
         setText("")
         setError("")
