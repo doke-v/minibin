@@ -5,13 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "setup": "concurrently \"yarn\" \"cd client && yarn\"",
-    "start": "concurrently --kill-others \"node index\" \"cd client && npm run start\""
+    "setup": "yarn add concurrently & concurrently \"yarn\" \"cd client && yarn\"",
+    "start": "concurrently --kill-others \"node index\" \"cd client && yarn run start\""
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "concurrently": "^4.0.1",
+    "concurrently": "^4.1.2",
+    "dotenv": "^8.1.0",
     "express": "^4.16.4",
     "mongodb": "^3.1.8",
     "shortid": "^2.2.13"

@@ -1,5 +1,5 @@
-
 @import "./sass/breakpoints.scss";
+@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Mono&display=swap');
 
 * {
   box-sizing: border-box;
@@ -16,6 +16,21 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
+  & code {
+    font-family: 'IBM Plex Mono', monospace;
+  }
+ 
+}
+
+.raw {
+  font-family: monospace;
+  & pre {
+    margin: 0;
+    padding: 0.25em;
+  }
+  & code {
+  font-family: monospace;
+  }
 }
 
 .App {

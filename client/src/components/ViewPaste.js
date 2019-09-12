@@ -6,7 +6,7 @@ function ViewPaste(props) {
   const [data, setData] = useState("");
   const id = props.match.params.id
   const getData = id => {
-    fetch("/" + id)
+    fetch("/" + id + "?_=" + new Date().valueOf())
       .then(response => {
         return response.json();
       })
