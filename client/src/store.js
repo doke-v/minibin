@@ -1,4 +1,5 @@
 import { createStore, thunk, action } from 'easy-peasy';
+import {getFromStorage, saveToStorage} from "./utils"
 let API_ROOT = "/bin/api"
 
 const store = createStore({
@@ -6,6 +7,19 @@ const store = createStore({
     user: "Anonymous",
     title: "Untitled",
     count: null,
+    styleIndex: parseInt(getFromStorage("minibinStyle")) || 47,
+    styleListLength: 0,
+    addToStyleIndex: action((state, payload)=>{
+      if(state.styleIndex < state.stylelistLength - 1) state.styleIndex +=1
+      saveToStorage("minibinStyle", state.styleIndex)
+    }),
+    removeFromStyleIndex: action((state, payload)=>{
+      if(state.styleIndex > 0) state.styleIndex -=1
+      saveToStorage("minibinStyle", state.styleIndex)
+    }),
+    setStyleListLength: action((state, payload)=>{
+      state.stylelistLength = payload
+    }),
     getCount: thunk(async (actions, payload) => {
         await fetch(API_ROOT + "/count")
         .then(response => {
@@ -48,14 +62,3 @@ const store = createStore({
   });
 
   export default store;
-
-//   fetch("/count")
-//       .then(response => {
-//         return response.json();
-//       })
-//       .then(data => {
-//         this.setState({ count: data.text });
-//       })
-//       .catch(err => {
-//         this.setState({ error: "Database connection error!" });
-//       });
