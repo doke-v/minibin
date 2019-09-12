@@ -1,4 +1,5 @@
 import { createStore, thunk, action } from 'easy-peasy';
+let API_ROOT = "/bin/api"
 
 const store = createStore({
     error: "",
@@ -6,7 +7,7 @@ const store = createStore({
     title: "Untitled",
     count: null,
     getCount: thunk(async (actions, payload) => {
-        await fetch("/bin/api/count")
+        await fetch(API_ROOT + "/count")
         .then(response => {
             return response.json();
           })
@@ -24,7 +25,7 @@ const store = createStore({
         state.error = payload
     }),
     postPaste: thunk(async (actions, payload) => {
-        await fetch("/bin/api/", {
+        await fetch(API_ROOT, {
             method: "POST",
             headers: {
               "Content-Type": "application/json; charset=utf-8"

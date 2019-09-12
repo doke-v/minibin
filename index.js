@@ -5,6 +5,7 @@ const express = require('express');
 const app = express();
 const url = process.env.MONGODB_URL;
 const port = 5000;
+const API_ROOT = "/bin/api"
 
 app.use(express.json())
 const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -19,7 +20,7 @@ const connect = client.connect().then(()=>{
 
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
-app.get('/count', (req, res) => {
+app.get(API_ROOT +'/count', (req, res) => {
    connect.then(() => {
      pastes.countDocuments(
       {},
@@ -31,7 +32,7 @@ app.get('/count', (req, res) => {
    });
 })
 
-app.get('/drop', (req, res) => {
+app.get(API_ROOT + '/drop', (req, res) => {
    connect.then(() => {
      pastes.deleteMany({}, function(err, obj) {
       if (err) throw err;
@@ -40,7 +41,7 @@ app.get('/drop', (req, res) => {
    });
 })
 
-app.get('/:id', (req, res) => {
+app.get(API_ROOT + '/:id', (req, res) => {
    let id = req.params.id
     connect.then(() => {
       pastes.findOne({id}, function(err, result) {
@@ -55,7 +56,7 @@ app.get('/:id', (req, res) => {
     });
 })
 
-app.post('/', (req, res) => {
+app.post(API_ROOT + '/', (req, res) => {
   let id = shortid.generate()
   res.send({message: "ok", shortid: id})
   connect.then(() => {
