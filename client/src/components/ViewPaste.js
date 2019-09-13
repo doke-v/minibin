@@ -4,9 +4,9 @@ import { useStoreActions, useStoreState } from "easy-peasy"
 import * as styles from "react-syntax-highlighter/dist/esm/styles/hljs/"
 
 function ViewPaste(props) {
-  const addToStyleIndex = useStoreActions(actions => actions.addToStyleIndex)
-  const removeFromStyleIndex = useStoreActions(actions => actions.removeFromStyleIndex)
-  const currentStyleName = useStoreState(state=>state.currentStyleName)
+  const addToStyleIndex = useStoreActions(actions => actions.style.addToStyleIndex)
+  const removeFromStyleIndex = useStoreActions(actions => actions.style.removeFromStyleIndex)
+  const currentStyleName = useStoreState(state=>state.style.currentStyleName)
   const [data, setData] = useState("");
   const [styleNameVisible, setStyleNameVisible] = useState(false)
 
@@ -57,7 +57,7 @@ function ViewPaste(props) {
 
   return (
     <>
-    <div className={styleNameVisible?"current-style visible": "current-style hidden" }>{currentStyleName}</div>
+    <div className={styleNameVisible?"current-style": "current-style hidden" }>{currentStyleName}</div>
     <SyntaxHighlighter
       language={hash}
       showLineNumbers
