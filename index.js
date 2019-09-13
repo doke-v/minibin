@@ -1,48 +1,50 @@
-let MongoClient = require('mongodb').MongoClient;
-let url = "YOUR MONGODB URL HERE";
+require('dotenv').config()
+const MongoClient = require('mongodb').MongoClient;
 const shortid = require('shortid');
 const express = require('express');
 const app = express();
-const port = process.env.PORT || 5000;
-
+const url = process.env.MONGODB_URL;
+const port = 5000;
+const API_ROOT = "/bin/api"
 
 app.use(express.json())
-const client = new MongoClient(url, { useNewUrlParser: true })
-let connect = client.connect()
+const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true })
+
+let db
+let pastes
+
+const connect = client.connect().then(()=>{
+  db = client.db('mydb')
+  pastes = db.collection('pastes')
+})
 
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
-app.get('/count', (req, res) => {
-  let id = req.params.id
+app.get(API_ROOT +'/count', (req, res) => {
    connect.then(() => {
-     const db = client.db('mydb')
-     const coll = db.collection('pastes')
-     coll.countDocuments(
+     pastes.countDocuments(
       {},
       {},
       function(error, result) {
-        res.send({text: result});
+        res.send({count: result});
       }
     );
    });
 })
-app.get('/drop', (req, res) => {
-  let id = req.params.id
+
+app.get(API_ROOT + '/drop', (req, res) => {
    connect.then(() => {
-     const db = client.db('mydb')
-     const coll = db.collection('pastes')
-     coll.deleteMany({}, function(err, obj) {
+     pastes.deleteMany({}, function(err, obj) {
       if (err) throw err;
       res.send({text: obj.result.n + " items(s) deleted"});
     });
    });
 })
-app.get('/:id', (req, res) => {
+
+app.get(API_ROOT + '/:id', (req, res) => {
    let id = req.params.id
     connect.then(() => {
-      const db = client.db('mydb')
-      const coll = db.collection('pastes')
-      coll.findOne({id}, function(err, result) {
+      pastes.findOne({id}, function(err, result) {
         if (err) throw err;
         if(!result) {
           res.send({text: "Paste not found..."})
@@ -53,14 +55,12 @@ app.get('/:id', (req, res) => {
       });
     });
 })
-app.post('/', (req, res) => {
+
+app.post(API_ROOT + '/', (req, res) => {
   let id = shortid.generate()
-  req.body.shortid = id
-  res.send(req.body)
+  res.send({message: "ok", shortid: id})
   connect.then(() => {
-    const db = client.db('mydb')
-    const coll = db.collection('pastes')
-    coll.insertOne({id, paste: req.body.text}, function(err, res) {
+    pastes.insertOne({id, paste: req.body.text}, function(err, res) {
       if (err) throw err;
     });
   });
