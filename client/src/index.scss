@@ -45,9 +45,6 @@ pre {
   border-radius: 15px;
   font-family: monospace;
   padding: 0.5em 0.76em;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
   text-shadow: 3px 3px 3px #0000003d;
   color: beige;
@@ -59,17 +56,13 @@ pre {
   opacity: 0.5;
   font-weight: 700;
   box-shadow: 3px 3px 14px 0px #25252561;
-}
-
-.visible {
   visibility: visible;
-  opacity: 1;
 }
 
 .hidden {
   visibility: hidden;
-  opacity: 0;
   transition: visibility 0s 2s, opacity 2s linear;
+  opacity: 0;
 }
 
 .App {
