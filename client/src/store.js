@@ -1,4 +1,4 @@
-import { createStore, thunk, action } from 'easy-peasy';
+import { createStore, thunk, action, computed } from 'easy-peasy';
 import {getFromStorage, saveToStorage} from "./utils"
 let API_ROOT = "/bin/api"
 
@@ -7,18 +7,21 @@ const store = createStore({
     user: "Anonymous",
     title: "Untitled",
     count: null,
-    styleIndex: parseInt(getFromStorage("minibinStyle")) || 47,
-    styleListLength: 0,
+    styleIndex: parseInt(getFromStorage("minibinStyle")) || 46,
+    styleList: ["a11yDark", "a11yLight", "agate", "anOldHope", "androidstudio", "arduinoLight", "arta", "ascetic", "atelierCaveDark", "atelierCaveLight", "atelierDuneDark", "atelierDuneLight", "atelierEstuaryDark", "atelierEstuaryLight", "atelierForestDark", "atelierForestLight", "atelierHeathDark", "atelierHeathLight", "atelierLakesideDark", "atelierLakesideLight", "atelierPlateauDark", "atelierPlateauLight", "atelierSavannaDark", "atelierSavannaLight", "atelierSeasideDark", "atelierSeasideLight", "atelierSulphurpoolDark", "atelierSulphurpoolLight", "atomOneDarkReasonable", "atomOneDark", "atomOneLight", "codepenEmbed", "colorBrewer", "darcula", "dark", "darkula", "defaultStyle", "docco", "dracula", "far", "foundation", "githubGist", "github", "gml", "googlecode", "grayscale", "gruvboxDark", "gruvboxLight", "hopscotch", "hybrid", "idea", "irBlack", "isblEditorDark", "isblEditorLight", "kimbieDark", "kimbieLight", "lightfair", "magula", "monoBlue", "monokaiSublime", "monokai", "nord", "obsidian", "ocean", "paraisoDark", "paraisoLight", "pojoaque", "purebasic", "qtcreatorDark", "qtcreatorLight", "railscasts", "rainbow", "routeros", "shadesOfPurple", "solarizedDark", "solarizedLight", "sunburst", "tomorrowNightBlue", "tomorrowNightBright", "tomorrowNightEighties", "tomorrowNight", "tomorrow", "vs", "vs2015", "xcode", "xt256", "zenburn"],
+    currentStyleName: computed((state)=>{
+      let index = state.styleIndex
+      return state.styleList[index]
+    }),
     addToStyleIndex: action((state, payload)=>{
-      if(state.styleIndex < state.stylelistLength - 1) state.styleIndex +=1
+      state.styleIndex +=1
+      if(state.styleIndex > state.styleList.length - 1) state.styleIndex = 0
       saveToStorage("minibinStyle", state.styleIndex)
     }),
     removeFromStyleIndex: action((state, payload)=>{
-      if(state.styleIndex > 0) state.styleIndex -=1
+      state.styleIndex -=1
+      if(state.styleIndex < 0) state.styleIndex = state.styleList.length - 1
       saveToStorage("minibinStyle", state.styleIndex)
-    }),
-    setStyleListLength: action((state, payload)=>{
-      state.stylelistLength = payload
     }),
     getCount: thunk(async (actions, payload) => {
         await fetch(API_ROOT + "/count")
