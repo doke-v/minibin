@@ -5,7 +5,7 @@ Miniature and robust Pastebin clone, made with Node.js, MongoDB, Express.js and 
 
 # Setup
 
-Add mongoDB url to index.js.
+Add MONGODB_URL to .env
 
 Setup (install server and client packages): ```yarn run setup```
 
