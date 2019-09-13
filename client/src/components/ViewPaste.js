@@ -1,23 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { useStoreActions, useStoreState } from "easy-peasy"
 import * as styles from "react-syntax-highlighter/dist/esm/styles/hljs/"
 
-let styleList = []
-// eslint-disable-next-line
-for (let style in styles) {
-  styleList.push(style)
-}
-
 function ViewPaste(props) {
   const addToStyleIndex = useStoreActions(actions => actions.addToStyleIndex)
   const removeFromStyleIndex = useStoreActions(actions => actions.removeFromStyleIndex)
-  const styleIndex = useStoreState(state=>state.styleIndex)
-  const setStyleListLength = useStoreActions(actions => actions.setStyleListLength)
+  const currentStyleName = useStoreState(state=>state.currentStyleName)
   const [data, setData] = useState("");
+  const [styleNameVisible, setStyleNameVisible] = useState(false)
+
   const id = props.match.params.id
-  let hash = props.location.hash
-  hash = hash.substring(1);
+  let hash = props.location.hash.substring(1)
 
   const getData = id => {
     fetch("/bin/api/" + id + "?_=" + new Date().valueOf())
@@ -33,9 +27,14 @@ function ViewPaste(props) {
     getData(id);
   }, [id]);
 
-  useEffect(()=>{
-    setStyleListLength(styleList.length)
-  }, [setStyleListLength])
+  useEffectAfterMount(() => {
+    setStyleNameVisible(true)
+    let timer = setTimeout(()=>{
+      setStyleNameVisible(false)
+    }, 100)
+    return ()=>clearTimeout(timer)
+  }, [currentStyleName]);
+
 
   useEffect(()=>{ 
     function handleKeyPress (e) {    
@@ -57,16 +56,30 @@ function ViewPaste(props) {
   }
 
   return (
+    <>
+    <div className={styleNameVisible?"current-style visible": "current-style hidden" }>{currentStyleName}</div>
     <SyntaxHighlighter
       language={hash}
       showLineNumbers
       lineNumberStyle={{ opacity: "0.3", userSelect: "none" }}
       customStyle={{ height: "100%", margin: 0 }}
-      style={styles[styleList[styleIndex]]}
+      style={styles[currentStyleName]}
     >
       {data}
     </SyntaxHighlighter>
+    </>
   );
 }
 
 export default ViewPaste;
+
+function useEffectAfterMount(cb, dependencies) {
+  const justMounted = useRef(true);
+  useEffect(() => {
+    if (!justMounted.current) {
+      return cb();
+    }
+    justMounted.current = false;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, dependencies);
+}
