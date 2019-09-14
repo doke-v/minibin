@@ -14,7 +14,7 @@ function ViewPaste(props) {
   let hash = props.location.hash.substring(1)
 
   const getData = id => {
-    fetch("/bin/api/" + id + "?_=" + new Date().valueOf())
+    fetch("/bin/api/" + id)
       .then(response => {
         return response.json();
       })
