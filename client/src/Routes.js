@@ -8,7 +8,7 @@ function Routes() {
     <BrowserRouter basename="/bin">
       <Switch>
         <Route exact path="/" component={EnterPaste} />
-        <Route path="/:id" component={ViewPaste} />    
+        <Route path="/:id" component={ViewPaste} />
       </Switch>
     </BrowserRouter>
   );

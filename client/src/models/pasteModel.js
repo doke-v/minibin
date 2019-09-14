@@ -6,6 +6,7 @@ const pasteModel = {
   error: "",
   user: "Anonymous",
   title: "Untitled",
+  pasteText: "",
   count: null,
   getCount: thunk(async (actions, _payload) => {
     await fetch(API_ROOT + "/count")
@@ -24,6 +25,21 @@ const pasteModel = {
   }),
   setError: action((state, payload) => {
     state.error = payload;
+  }),
+  getPaste: thunk(async (actions, payload) => {
+    await fetch(API_ROOT + "/" + payload)
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        actions.setPaste(data.text);
+      })
+      .catch(_err => {
+        actions.setError("Database connection error!");
+      });
+  }),
+  setPaste: action((state, payload) => {
+    state.pasteText = payload;
   }),
   postPaste: thunk(async (actions, payload) => {
     await fetch(API_ROOT, {

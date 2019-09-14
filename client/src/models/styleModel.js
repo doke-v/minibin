@@ -96,12 +96,12 @@ const styleModel = {
     let index = state.styleIndex;
     return state.styleList[index];
   }),
-  addToStyleIndex: action((state, payload) => {
+  getNextStyle: action((state, payload) => {
     state.styleIndex += 1;
     if (state.styleIndex > state.styleList.length - 1) state.styleIndex = 0;
     saveToStorage("minibinStyle", state.styleIndex);
   }),
-  removeFromStyleIndex: action((state, payload) => {
+  getPreviousStyle: action((state, payload) => {
     state.styleIndex -= 1;
     if (state.styleIndex < 0) state.styleIndex = state.styleList.length - 1;
     saveToStorage("minibinStyle", state.styleIndex);
