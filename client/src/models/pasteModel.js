@@ -7,7 +7,7 @@ const pasteModel = {
   user: "Anonymous",
   title: "Untitled",
   count: null,
-  getCount: thunk(async (actions, payload) => {
+  getCount: thunk(async (actions, _payload) => {
     await fetch(API_ROOT + "/count")
       .then(response => {
         return response.json();
@@ -37,14 +37,13 @@ const pasteModel = {
         return response.json();
       })
       .then(data => {
-        console.log(data);
         actions.redirect(data.shortid);
       })
       .catch(_err => {
         actions.setError("Database connection error!");
       });
   }),
-  redirect: action((state, payload) => {
+  redirect: action((_state, payload) => {
     let url = window.location.href + payload;
     window.location.href = url;
   })
