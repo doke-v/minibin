@@ -7,9 +7,12 @@ import * as styles from "react-syntax-highlighter/dist/esm/styles/hljs/";
 function ViewPaste(props) {
   const pasteText = useStoreState(state => state.paste.pasteText);
   const getPaste = useStoreActions(actions => actions.paste.getPaste);
+  const currentUser = useStoreState(state => state.paste.currentUserFromLS);
   const getNextStyle = useStoreActions(actions => actions.style.getNextStyle);
   const getPreviousStyle = useStoreActions(actions => actions.style.getPreviousStyle);
   const currentStyleName = useStoreState(state => state.style.currentStyleName);
+  const setDeletePaste = useStoreActions(actions => actions.paste.setPasteToBeDeleted);
+  const deletePaste = useStoreActions(actions => actions.paste.deletePaste);
   const [styleNameVisible, setStyleNameVisible] = useState(false);
 
   const id = props.match.params.id;
@@ -50,9 +53,21 @@ function ViewPaste(props) {
     );
   }
 
+  const isUserEligibleToDelete = () => {
+
+    if (localStorage.getItem("minibinUser") === currentUser) {
+      return true;
+    }
+  }
+
+  const handleDeleteUser = () => {
+    deletePaste(id)
+  }
+
   return (
     <>
       <div className={styleNameVisible ? "current-style" : "current-style hidden"}>{currentStyleName}</div>
+      {isUserEligibleToDelete() && <button className="delete_button" onClick={handleDeleteUser}>X</button>}
       <SyntaxHighlighter
         language={hash}
         showLineNumbers

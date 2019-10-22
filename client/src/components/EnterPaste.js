@@ -8,9 +8,11 @@ function EnterPaste() {
   const postPaste = useStoreActions(actions => actions.paste.postPaste);
   const setError = useStoreActions(actions => actions.paste.setError);
   const getCount = useStoreActions(actions => actions.paste.getCount);
+  const getUserPastes = useStoreActions(actions => actions.paste.getUserPastes);
 
   useEffect(() => {
     getCount();
+    getUserPastes()
   }, [getCount]);
 
   const handleChange = e => {
