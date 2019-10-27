@@ -66,7 +66,12 @@ function ViewPaste(props) {
   }
 
   const handleDeleteUser = () => {
-    deletePaste(id)
+    var confirmation = window.confirm("Are you sure you want to delete this paste?");
+    if (confirmation) {
+      deletePaste(id)
+    } else {
+      return
+    }
   }
 
   return (
