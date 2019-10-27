@@ -1,5 +1,6 @@
 @import "./sass/breakpoints.scss";
 @import url("https://fonts.googleapis.com/css?family=IBM+Plex+Mono&display=swap");
+@import "./sass/components/sidebar.scss";
 
 * {
   box-sizing: border-box;
@@ -109,23 +110,6 @@ body {
   &:hover {
     background: #c9c9c9;
   }
-}
-
-//WIP
-.delete_button {
-  position: absolute;
-  background: #6767676c;
-  font-family: monospace;
-  padding: 0.1em 0.3em;
-  border-radius: 15px;
-  user-select: none;
-  color: red;
-  right: 1%;
-  top: 3%;
-  font-size: 2em;
-  font-weight: 700;
-  visibility: visible;
-
 }
 
 .title {

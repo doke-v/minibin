@@ -4,6 +4,11 @@ import { useStoreActions, useStoreState } from "easy-peasy";
 import useEffectAfterMount from "../hooks/useEffectAfterMount";
 import * as styles from "react-syntax-highlighter/dist/esm/styles/hljs/";
 
+import Sidebar from "./sidebar";
+import githubLogo from "../assets/icons/GitHub-Mark-32px.png";
+import close from "../assets/icons/close.png";
+
+
 function ViewPaste(props) {
   const pasteText = useStoreState(state => state.paste.pasteText);
   const getPaste = useStoreActions(actions => actions.paste.getPaste);
@@ -67,7 +72,21 @@ function ViewPaste(props) {
   return (
     <>
       <div className={styleNameVisible ? "current-style" : "current-style hidden"}>{currentStyleName}</div>
-      {isUserEligibleToDelete() && <button className="delete_button" onClick={handleDeleteUser}>X</button>}
+      <Sidebar>
+        {isUserEligibleToDelete() &&
+          <div className="tooltip" onClick={handleDeleteUser}>
+            <img src={close}></img>
+            <span class="tooltiptext">delete paste</span>
+          </div>
+        }
+
+        <div className="tooltip">
+          <img src={githubLogo} >
+          </img>
+          <span className="tooltiptext">minibin on github</span>
+        </div>
+
+      </Sidebar>
       <SyntaxHighlighter
         language={hash}
         showLineNumbers
