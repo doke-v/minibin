@@ -16,7 +16,6 @@ function ViewPaste(props) {
   const getNextStyle = useStoreActions(actions => actions.style.getNextStyle);
   const getPreviousStyle = useStoreActions(actions => actions.style.getPreviousStyle);
   const currentStyleName = useStoreState(state => state.style.currentStyleName);
-  const setDeletePaste = useStoreActions(actions => actions.paste.setPasteToBeDeleted);
   const deletePaste = useStoreActions(actions => actions.paste.deletePaste);
   const [styleNameVisible, setStyleNameVisible] = useState(false);
 
@@ -65,8 +64,8 @@ function ViewPaste(props) {
     }
   }
 
-  const handleDeleteUser = () => {
-    var confirmation = window.confirm("Are you sure you want to delete this paste?");
+  const handleDeletePaste = () => {
+    const confirmation = window.confirm("Are you sure you want to delete this paste?");
     if (confirmation) {
       deletePaste(id)
     } else {
@@ -79,7 +78,7 @@ function ViewPaste(props) {
       <div className={styleNameVisible ? "current-style" : "current-style hidden"}>{currentStyleName}</div>
       <Sidebar>
         {isUserEligibleToDelete() &&
-          <div className="tooltip" onClick={handleDeleteUser}>
+          <div className="tooltip" onClick={handleDeletePaste}>
             <img src={close}></img>
             <span class="tooltiptext">delete paste</span>
           </div>

@@ -13,7 +13,7 @@ const pasteModel = {
   userPastes: null,
   title: "Untitled",
   pasteText: "",
-  currentUserFromLS: "",
+  userIdFromLocalStorage: "",
   count: null,
   getCount: thunk(async (actions, _payload) => {
     await fetch(API_ROOT + "/count")
@@ -50,10 +50,10 @@ const pasteModel = {
     state.pasteText = payload;
   }),
   setCurrentUser: action((state, payload) => {
-    state.currentUserFromLS = payload;
+    state.userIdFromLocalStorage = payload;
   }),
   getUserPastes: thunk(async (actions, _payload) => {
-    let currentUser = localStorage.getItem("minibinUser");
+    const currentUser = localStorage.getItem("minibinUser");
     await fetch(API_ROOT + "/user" + currentUser)
       .then(response => {
         return response.json(

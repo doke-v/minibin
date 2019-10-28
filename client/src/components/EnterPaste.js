@@ -12,6 +12,7 @@ function EnterPaste() {
 
   useEffect(() => {
     getCount();
+    //unfinished functionality. will be used to display users previous pastes (from localstorage)
     getUserPastes()
   }, [getCount]);
 
