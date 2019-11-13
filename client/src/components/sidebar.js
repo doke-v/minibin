@@ -1,17 +1,18 @@
 import React from "react";
-
+import { useStoreState } from "easy-peasy";
 
 function Sidebar(props) {
-
+    const canDelete = useStoreState(state => state.paste.canDelete);
     return (
 
         <div className="sidebar">
-            <div class="container">
-                <div class="bar1"></div>
-                <div class="bar2"></div>
-                <div class="bar3"></div>
+            <div className="container">
+                <div className="bar1"></div>
+                <div className="bar2"></div>
+                <div className="bar3"></div>
             </div>
             <div className="sidebar-items">
+                {canDelete?"Delete":""}
                 {props.children}
             </div>
         </div>

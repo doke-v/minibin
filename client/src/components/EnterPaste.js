@@ -8,12 +8,12 @@ function EnterPaste() {
   const postPaste = useStoreActions(actions => actions.paste.postPaste);
   const setError = useStoreActions(actions => actions.paste.setError);
   const getCount = useStoreActions(actions => actions.paste.getCount);
-  const getUserPastes = useStoreActions(actions => actions.paste.getUserPastes);
+  //const getUserPastes = useStoreActions(actions => actions.paste.getUserPastes);
 
   useEffect(() => {
     getCount();
     //unfinished functionality. will be used to display users previous pastes (from localstorage)
-    getUserPastes()
+    //getUserPastes()
   }, [getCount]);
 
   const handleChange = e => {
